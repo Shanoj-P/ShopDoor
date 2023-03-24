@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+    {{prouct.description | truncatewords:155}}
+
+
+{% endblock %}
+
+{% block title %}
+
+    {{product.name}} - Shop Door
+
+
+{% endblock %}
+
+{% block content %}
+<div class="row product-row-class">
+  <div class="mx-auto">
+    <p><a href="{% url 'shoppingApp:allProductCat' %}">Home</a> |<a href="{{product.category.get_url}}">{{product.category}}</a>| {{product.name}} </p>
+  </div>
+</div>
+<br>
+<div class="continer">
+<div style="padding-bottom:20px" class="row">
+  <div class="text-center col-12 col-sm-12 col-md-12 col-lg-6">
+    <div style="min-width: 18rem;">
+      <img class="custom-image" src="{{product.image.url}}" alt="{{product.name}}" width="300px" height="300px">
+    </div>
+  </div>
+
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+            <div style="padding-left:15px;">
+            <h1 class="custom-product-title">{{product.name}}</h1>
+            <p>₹{{product.price}}</p>
+            <p class="custom-product-title-2">Product Description</p>
+            <p class="justify product-text">{{product.description}}</p>
+
+                <div style="padding:20px;">
+            {% if product.stock <= 0 %}
+
+            <p style="padding-left:20px;" class="justify product-text btn btn-danger"><b>Out Of Stock</b></p>
+            {% else %}
+            <a style="padding-left:20px " class=" justify product-text btn btn-dark"   href="{% url 'cartApp:add_cart' product.id %}">Add to Cart</a>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+</div>
+{% endblock %}
