@@ -12,6 +12,15 @@ def allProductCat(request, c_slug=None):
     if c_slug != None:
         c_page = get_object_or_404(Category, slug=c_slug)
         products_list = Product.objects.all().filter(category=c_page, availability=True)
+        pageData = Paginator(products_list, 5)
+        try:
+            pageNo = int(request.GET.get('page', '1'))
+        except:
+            pageNo = 1
+        try:
+            products = pageData.page(pageNo)
+        except (EmptyPage, InvalidPage):
+            products = pageData.page(pageData.num_pages)
     else:
         products_list = Product.objects.all().filter(availability=True)
         pageData = Paginator(products_list, 5)
